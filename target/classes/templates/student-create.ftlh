@@ -29,7 +29,7 @@
             margin-top: 20px;
         }
 
-        h4 {
+        h3 {
             text-align: center;
         }
 
@@ -39,7 +39,7 @@
             margin: 20px 0;
         }
 
-        .room-info {
+        form {
             background-color: #DEB887;
             border: 1px solid #D2691E;
             border-radius: 5px;
@@ -55,18 +55,17 @@
             transform: translate(-50%, -50%);
         }
 
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            gap: 10px;
-        }
-
-        .buttons form {
+        form input[type="text"],
+        form input[type="number"] {
             width: 100%;
         }
 
-        .buttons input[type="submit"] {
+        .buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .buttons input {
             cursor: pointer;
             height: 30px;
             text-align: center;
@@ -74,9 +73,10 @@
             color: #FFFF00;
             transition: background-color 0.3s ease;
             width: 100%;
+            margin: 10px 0;
         }
 
-        .buttons input[type="submit"]:hover {
+        .buttons input:hover {
             background-color: #FFFF00;
             color: #ff6600;
         }
@@ -84,38 +84,53 @@
 </head>
 
 <body>
-    <div class="room-info">
-        <h1>Dormitory</h1><hr>
-        <h4>Подробная информация о заявлении</h4>
-        <b>Заявление: №</b> ${appforliving.id}<br>
-        <b>Дата заявления: </b>${appforliving.dateOfApp}<br>
-        <b id="status">Статус заявления: </b><span id="requestStatus">${appforliving.requestStatus}</span><br>
-        <b>Студент ID: <a href="/student/${appforliving.idStudent}">${appforliving.idStudent}</a></b><br>
-        <hr>
+    <form id="studentForm">
+        <h3>Создать нового студента</h3>
+        Фамилия: <input type="text" id="firstName"/><br><br>
+        Имя: <input type="text" id="lastName"/><br><br>
+        Группа: <input type="text" id="group"/><br><br>
+        Телефон: <input type="text" id="phone"/><br><br>
+        Проживает в: <input type="number" id="idRoom"/><br><br>
         <div class="buttons">
-            <form action="/appforliving/edit/${appforliving.id}" method="get">
-                <input type="submit" value="Изменить информацию о заявлении"/>
-            </form>
-            <form action="/appforliving/delete/${appforliving.id}" method="post">
-                <input type="submit" value="Удалить информацию о заявлении"/>
-            </form>
-            <form action="/" method="get">
-                <input type="submit" value="Вернуться на главную"/>
-            </form>
+            <input type="button" id="submitButton" value="Добавить студента"/>
         </div>
-    </div>
+    </form>
 
     <script>
-        window.onload = function() {
-            var status = document.getElementById('requestStatus').textContent;
-            if (status === 'На рассмотрении') {
-                document.getElementById('requestStatus').style.color = 'yellow';
-            } else if (status === 'Принято') {
-                document.getElementById('requestStatus').style.color = 'green';
-            } else if (status === 'Отклонено') {
-                document.getElementById('requestStatus').style.color = 'red';
-            }
+    $(document).ready(function(){
+      $("#submitButton").click(function(){
+        var firstName = $("#firstName").val();
+        var lastName = $("#lastName").val();
+        var group = $("#group").val();
+        var phone = $("#phone").val();
+        var idRoom = $("#idRoom").val();
+
+        if (!firstName || !lastName || !group || !phone || !idRoom) {
+            alert('Пожалуйста, заполните все поля.');
+            return;
+        }
+
+        var student = {
+          firstName: firstName,
+          lastName: lastName,
+          group: group,
+          phone: phone,
+          idRoom: idRoom
         };
+        $.ajax({
+          url: '/student/create',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(student),
+          success: function() {
+            window.location.href = "/students";
+          },
+          error: function() {
+            alert('Произошла ошибка при добавлении студента.');
+          }
+        });
+      });
+    });
     </script>
 
 </body>

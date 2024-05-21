@@ -1,7 +1,10 @@
 package api.management.Dormitory.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
@@ -16,13 +19,14 @@ public class AppForLiving {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    //динам дата
     @Column(name = "date_of_app")
     private Date dateOfApp;
-    //реализовать выборку (отклоненные, принятые и находящиеся на рассмотрении заявки)
     @Column(name = "request_status")
     private String requestStatus;
-
     @Column(name = "id_student")
     private Long idStudent;
+
+    @ManyToOne
+    @JoinColumn(name = "id_student", insertable = false, updatable = false)
+    private Student student;
 }

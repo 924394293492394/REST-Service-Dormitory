@@ -3,6 +3,8 @@ package api.management.Dormitory.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "student")
 @AllArgsConstructor
@@ -22,7 +24,9 @@ public class Student {
     private String group;
     @Column(name = "phone")
     private String phone;
-
     @Column(name = "id_room")
     private Long idRoom;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AppForLiving> appsForLiving;
 }
