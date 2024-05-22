@@ -1,0 +1,60 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('photo1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ff6600;
+    text-align: center;
+    margin-top: 20px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+h2 {
+    color: #FFDAB9;
+    text-align: center;
+}
+
+.room-info {
+    background-color: #DEB887;
+    border: 1px solid #D2691E;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 600px;
+    display: inline-block;
+    margin-right: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.room-info:hover {
+    background-color: #FFDEAD;
+}
+
+.room-info b {
+    font-weight: bold;
+}
+
+.room-info a {
+    cursor: pointer;
+    color: #D2691E;
+    text-decoration: none;
+}
+
+.room-info {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
